@@ -1,4 +1,6 @@
 import "./App.css";
+import CountriesList from "./components/CountriesList";
+import CountryCard from "./components/CountryCard";
 import Header from "./components/Header";
 import SearchBar from "./components/SearchBar";
 import SelectMenu from "./components/SelectMenu";
@@ -12,6 +14,8 @@ const App = () => {
           <SearchBar />
           <SelectMenu />
         </div>
+
+        <CountriesList />
       </main>
     
     </>
