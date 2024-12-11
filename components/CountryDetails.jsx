@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import './CountryDetail.css'
+import "./CountryDetail.css";
+import { useParams } from "react-router-dom";
 
 export default function CountryDetails() {
-  const countryName = new URLSearchParams(location.search).get("name"); // this i have taken help from stack overflow it fetches from the url the country name ..
-  const [countryData, setCountryData] = useState(null)
+  const params=useParams(); //Here params will give the Url name and it returns the object ...
+  const countryName = params.country;
+  const [countryData, setCountryData] = useState(null);
+
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
       .then((res) => res.json())
       .then(([data]) => {
-        console.log(data)
         setCountryData({
           name: data.name.common,
           nativeName: Object.values(data.name.nativeName)[0].common,
@@ -19,23 +22,31 @@ export default function CountryDetails() {
           capital: data.capital,
           flag: data.flags.svg,
           tld: data.tld,
-          languages: Object.values(data.languages).join(', '),
+          languages: Object.values(data.languages).join(", "),
           currencies: Object.values(data.currencies)
             .map((currency) => currency.name)
-            .join(', '),
-          
-        })
+            .join(", "),
+        });
       })
-  }, [])
+      .catch((err) => {
+        setNotFound(true);
+      });
+  }, []);
 
 
-// If there are no countries either we will show the shimmer effect or just display the text as loading ..
+// if not found state variable returns true it means no country then it will give the message country not found ..
+  if (notFound) {
+    return <div>Country Not Found</div>;
+  }
+
+ // If there are no countries either we will show the shimmer effect or just display the text as loading ..
   return countryData === null ? (
-    'loading...'
+    "loading..."
   ) : (
     <main>
       <div className="country-details-container">
-        <span className="back-button">
+        
+        <span className="back-button" onClick={() => history.back()}>  {/* here history.back() will take to the previous url */}
           <i className="fa-solid fa-arrow-left"></i>&nbsp; Back
         </span>
         <div className="country-details">
@@ -49,7 +60,7 @@ export default function CountryDetails() {
               </p>
               <p>
                 <b>
-                  Population: {countryData.population.toLocaleString('en-IN')}
+                  Population: {countryData.population.toLocaleString("en-IN")}
                 </b>
                 <span className="population"></span>
               </p>
@@ -62,7 +73,7 @@ export default function CountryDetails() {
                 <span className="sub-region"></span>
               </p>
               <p>
-                <b>Capital: {countryData.capital.join(', ')}</b>
+                <b>Capital: {countryData.capital.join(", ")}</b>
                 <span className="capital"></span>
               </p>
               <p>
@@ -85,5 +96,5 @@ export default function CountryDetails() {
         </div>
       </div>
     </main>
-  )
+  );
 }

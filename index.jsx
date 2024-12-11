@@ -1,9 +1,10 @@
-import { createRoot } from "react-dom/client";
-import App from "./App";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./components/Home";
-import Error from "./components/Error";
-import CountryDetails from "./components/CountryDetails";
+import { createRoot } from 'react-dom/client'
+import App from './App'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Contact from './components/Contact'
+import Home from './components/Home'
+import Error from './components/Error'
+import CountryDetails from './components/CountryDetails'
 
 const router = createBrowserRouter([
   {
@@ -12,18 +13,21 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       {
-        path: "/",
-        element: <Home />
+        path: '/',
+        element: <Home />,
       },
       {
-        path:'/country',
-        element: <CountryDetails />
-      }
+        path: '/:country',
+        element: <CountryDetails />,
+      },
+      {
+        path: '/contact',
+        element: <Contact />,
+      },
     ],
   },
-]);
+])
 
-const root = createRoot(document.querySelector("#root"));
+const root = createRoot(document.querySelector('#root'))
 
-// Here i am providing router function as props to <RouterProvider> so that it will be available globally ..
-root.render(<RouterProvider router={router} />);
+root.render(<RouterProvider router={router} />)
