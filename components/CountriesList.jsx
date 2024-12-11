@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import countriesData from "../countriesData";
 import CountryCard from "./CountryCard";
+import CountriesListShimmer from './CountriesListShimmer'
 
 //this is the countries Container Component which contains individual card inside it ..
 
@@ -14,6 +15,12 @@ export default function CountriesList({ query }) {
         setCountriesData(data)
     })
   }, [])
+
+
+  // Here if no countirs is there then shimmer effect will occur
+  if (!countriesData.length) {
+    return <CountriesListShimmer />
+  }
   
   return (
     <>
