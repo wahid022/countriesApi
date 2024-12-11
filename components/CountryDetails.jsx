@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./CountryDetail.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function CountryDetails() {
-  const params=useParams(); //Here params will give the Url name and it returns the object ...
+  const params = useParams(); //Here params will give the Url name and it returns the object ...
   const countryName = params.country;
   const [countryData, setCountryData] = useState(null);
 
@@ -26,27 +26,48 @@ export default function CountryDetails() {
           currencies: Object.values(data.currencies)
             .map((currency) => currency.name)
             .join(", "),
+          borders: [],
+        });
+
+
+        // Here if border is not present for the country then that country will not open so here initialyzed with empty array ...
+        if (!data.borders) {
+          data.borders = [];
+        }
+
+
+        //Here since for every border countries  the page is rendering multile times 
+        // so i have made it inside the Promise.all  so that it will wait for all promises to get resolved and then run the 
+        Promise.all(
+          data.borders.map((border) => {
+            return fetch(`https://restcountries.com/v3.1/alpha/${border}`) // Here return is written just to return in the form of array of promises..
+              .then((res) => res.json())
+              .then(([borderCountry]) => borderCountry.name.common); // [borderCountry] is actually extracting or destructuring the array in which object is stored 
+          }) // till here it will return single promise at a tym but untill all promises are not returned and resolved 47 line will not execute 
+        ).then((borders) => {
+          setCountryData((prevState) => ({ ...prevState, borders }));
         });
       })
       .catch((err) => {
         setNotFound(true);
       });
-  }, []);
+  }, [countryName]);
 
-
-// if not found state variable returns true it means no country then it will give the message country not found ..
+  console.log(countryData);
+  // if not found state variable returns true it means no country then it will give the message country not found ..
   if (notFound) {
     return <div>Country Not Found</div>;
   }
 
- // If there are no countries either we will show the shimmer effect or just display the text as loading ..
+  // If there are no countries either we will show the shimmer effect or just display the text as loading ..
   return countryData === null ? (
     "loading..."
   ) : (
     <main>
       <div className="country-details-container">
-        
-        <span className="back-button" onClick={() => history.back()}>  {/* here history.back() will take to the previous url */}
+        <span className="back-button" onClick={() => history.back()}>
+          {" "}
+          {/* here history.back() will take to the previous url */}
           <i className="fa-solid fa-arrow-left"></i>&nbsp; Back
         </span>
         <div className="country-details">
@@ -89,9 +110,16 @@ export default function CountryDetails() {
                 <span className="languages"></span>
               </p>
             </div>
-            <div className="border-countries">
-              <b>Border Countries: </b>&nbsp;
-            </div>
+            {countryData.borders.length !== 0 && (
+              <div className="border-countries">
+                <b>Border Countries: </b>&nbsp;
+                {countryData.borders.map((border) => (
+                  <Link key={border} to={`/${border}`}>
+                    {border}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
