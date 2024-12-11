@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CountryDetail.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useOutletContext, useParams } from "react-router-dom";
 
 export default function CountryDetails() {
   const params = useParams(); //Here params will give the Url name and it returns the object ...
@@ -8,6 +8,7 @@ export default function CountryDetails() {
   const [countryData, setCountryData] = useState(null);
 
   const [notFound, setNotFound] = useState(false);
+  const [isDark] =useOutletContext(); // useOutletContext() is used to fetch data passed from <Outlet> and it contains [isDark,setIsDark]
 
   useEffect(() => {
     fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
@@ -63,7 +64,8 @@ export default function CountryDetails() {
   return countryData === null ? (
     "loading..."
   ) : (
-    <main>
+    
+    <main className={`${isDark? 'dark': ''}`}>    {/*  here applying the condition by using isDark State*/}
       <div className="country-details-container">
         <span className="back-button" onClick={() => history.back()}>
           {" "}
