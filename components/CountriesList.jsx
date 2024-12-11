@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import countriesData from "../countriesData";
 import CountryCard from "./CountryCard";
 
 //this is the countries Container Component which contains individual card inside it ..
 
 export default function CountriesList({ query }) {
+
+  const [countriesData, setCountriesData] = useState([])
+  useEffect(() => {
+    fetch('https://restcountries.com/v3.1/all')
+      .then((res) => res.json())
+      .then((data) => {
+        setCountriesData(data)
+    })
+  }, [])
+  
   return (
     <>
       <div className="countries-container">

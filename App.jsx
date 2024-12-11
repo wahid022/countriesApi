@@ -1,29 +1,23 @@
-import { useState } from "react";
 import "./App.css";
-import CountriesList from "./components/CountriesList";
-import CountryCard from "./components/CountryCard";
 import Header from "./components/Header";
-import SearchBar from "./components/SearchBar";
-import SelectMenu from "./components/SelectMenu";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
-
-    //here query is used to store the types serched text ..
-
-  const [query,setQuery]=useState('');
-
   return (
     <>
       <Header />
-      <main>
-        <div className="search-filter-container">
-          <SearchBar setQuery={setQuery}/>
-          <SelectMenu />
-        </div>
-
-        <CountriesList query={query}/>
-      </main>
-    
+      <Outlet /> 
+      
+      {/* here <Outlet / > is the feature of react-router-dom it will automatically fetch all the components which is under the url localhost://1234/ or 
+      OR under the children routes [children: [
+      {
+        path: "/",
+        element: <Home />
+      },
+      .
+      .
+      .
+      ]*/}
     </>
   );
 };
