@@ -10,7 +10,7 @@ export default function CountryDetails() {
   const [countryData, setCountryData] = useState(null);
 
   const [notFound, setNotFound] = useState(false);
-  const [isDark] =useTheme() // useContext() is used to fetch data passed from <Outlet> and it contains [isDark,setIsDark]
+  const [isDark] =useTheme() // useTheme() is a hook which is indirectly taking values from ThemeContext hook and is fetching data passed from <Outlet> and it contains [isDark,setIsDark]
 
   useEffect(() => {
     fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)

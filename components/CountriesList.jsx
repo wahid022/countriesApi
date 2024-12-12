@@ -28,7 +28,7 @@ export default function CountriesList({ query }) {
         {/* here filter for the searched countries it will return the array and then iterating on those countries using map to display those countries.. */}
         {countriesData
           .filter((country) =>
-            country.name.common.toLowerCase().includes(query)
+            country.name.common.toLowerCase().includes(query) || country.region.toLowerCase().includes(query)
           )
           .map((country) => {
             // console.log(country);

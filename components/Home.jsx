@@ -15,10 +15,11 @@ export default function Home() {
   return (
     <main className={`${isDark? 'dark': ''}`}>
       <div className="search-filter-container">
-        <SearchBar setQuery={setQuery} />
-        <SelectMenu />
-      </div>
 
+    {/* setQuery is passed to both the components so that the query is set and we can search accordingly or show those items on the page  */}
+        <SearchBar setQuery={setQuery} />
+        <SelectMenu setQuery={setQuery}/>
+      </div>
       <CountriesList query={query} />
     </main>
   );
