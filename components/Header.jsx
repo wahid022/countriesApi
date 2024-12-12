@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
 
-export default function Header({theme}) {
-  const[isDark,setIsDark]=theme;
+export default function Header() {
+  const[isDark,setIsDark]=useContext(ThemeContext); // useContext() is used to fetch data passed from <Header> and it contains [isDark,setIsDark]
 
   return (
     <header className={`header-container ${isDark? 'dark': ''}`}>

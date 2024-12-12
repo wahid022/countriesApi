@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import CountriesList from "./CountriesList";
 import SearchBar from "./SearchBar";
 import SelectMenu from "./SelectMenu";
-import { useOutletContext } from "react-router-dom";
+import { ThemeContext } from "../contexts/ThemeContext";
+
 
 
 export default function Home() {
   //here query is used to store the types serched text ..
   const [query, setQuery] = useState("");
-  const [isDark] =useOutletContext(); // useOutletContext() is used to fetch data passed from <Outlet> and it contains [isDark,setIsDark]
+  const [isDark] =useContext(ThemeContext); // useContext() is used to fetch data passed from <Outlet> and it contains [isDark,setIsDark]
 
   return (
     <main className={`${isDark? 'dark': ''}`}>
