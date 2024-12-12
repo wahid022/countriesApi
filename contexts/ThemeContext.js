@@ -1,2 +1,4 @@
-import { createContext } from "react";
-export const ThemeContext=createContext()
+import { createContext } from 'react';
+
+//configuring the theme custom hook 
+export const ThemeContext = createContext(null);

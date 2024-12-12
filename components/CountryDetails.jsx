@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./CountryDetail.css";
 import { Link, useOutletContext, useParams } from "react-router-dom";
 import { ThemeContext } from "../contexts/ThemeContext";
+import { useTheme } from "../hooks/useTheme";
 
 export default function CountryDetails() {
   const params = useParams(); //Here params will give the Url name and it returns the object ...
@@ -9,7 +10,7 @@ export default function CountryDetails() {
   const [countryData, setCountryData] = useState(null);
 
   const [notFound, setNotFound] = useState(false);
-  const [isDark] =useContext(ThemeContext); // useContext() is used to fetch data passed from <Outlet> and it contains [isDark,setIsDark]
+  const [isDark] =useTheme() // useContext() is used to fetch data passed from <Outlet> and it contains [isDark,setIsDark]
 
   useEffect(() => {
     fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
